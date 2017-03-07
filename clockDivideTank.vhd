@@ -12,7 +12,7 @@ entity clockDivideTank is
 	clock_counter : out integer;
 	clock_divide : out integer
 	);
-end entity clockDivideTank
+end entity clockDivideTank;
 
 
 
@@ -31,6 +31,7 @@ begin
 			else
 				clock_counter <= 0;
 			end if;
+		end if;
 
 		
 	end process clockChange;

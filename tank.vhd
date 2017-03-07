@@ -4,18 +4,20 @@ use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 use IEEE.MATH_REAL.ALL;
 
-entity Tank is
+entity Tank_position is
 	port( 
 	clock_counter : in integer;
-	clock_divide : in integer
+	clock_divide : in integer;
+	clk : in std_logic;
+	rst_n : in std_logic;
 	--tank outputs
 	tank_bottomx, tank_topx : out integer
 	);
-end entity Tank
+end entity Tank_position;
 
 
 
-architecture behavioral of Tank is
+architecture behavioral of Tank_position is
 signal direction_c : integer := 1; -- 1 to the right, 0 to the left;
 signal direction_bottom_c, direction_top_c : integer := 1;
 signal tank_bottomx_c, tank_topx_c : integer := 320;
@@ -24,7 +26,7 @@ signal tank_offset_c : integer := 50;
 begin
 
 
-	tankClocked : process(clk, rst_n, clock_counter, clock_divide) is
+	tankClocked : process(clk, rst_n) is
 	
 	begin
 		if (clock_counter mod clock_divide = 0) then
@@ -42,10 +44,11 @@ begin
 			elsif (tank_bottomx_c-tank_offset_c = 0) then
 				direction_c <= 1;
 			end if;
+		end if;
 		
 	end process tankClocked;
 
-	tank_bottomx_c <= tank_bottomx;
-	tank_topx_c <= tank_topx;
+	tank_bottomx <=  tank_bottomx_c ;
+	tank_topx <=  tank_topx_c ;
 	
 end architecture behavioral;	

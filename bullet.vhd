@@ -13,8 +13,7 @@ entity bullet is
 	bulletx : out integer;
 	bullety : out integer
 	);
-end entity bullet 
-
+end entity bullet;
 
 
 architecture behavioral of bullet  is
@@ -47,6 +46,7 @@ begin
 						bulletx_c <= tank_bottomx;
 					end if;
 				end if;
+		end if;
 		
 	end process bulletClocked;
 
