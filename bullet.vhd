@@ -42,14 +42,15 @@ begin
 					clock_counter <= 0;
 				end if;
 				if (clock_counter mod clock_divide_bullet = 0) then
-					if (bottom_bullet_fired_c = 1) then
-						if (bottom_bullety_c-bullet_offsety > 0) then
+					if (bottom_bullety_c-bullet_offsety > 0) then
+						if (bottom_bullet_fired_c = 1) then
 							bottom_bullety_c <= bottom_bullety_c - 1;
 						else
 
 							bottom_bullety_c <= 395;
 							bottom_bulletx_c <= bottom_bulletx_c;
 						end if;
+					
 					end if;
 				end if;
 		end if;
@@ -61,14 +62,14 @@ begin
 	bulletFire : process( hist0 ) 
 	begin
 		case( hist0 ) is 
-			when x"F0" =>
-				if (hist1 = x"1D") then
+			when x"1D" =>
+				if (hist1 = x"F0") then
 					bottom_bullet_fired_c <= 1;
 				else
-						bottom_bullet_fired_c <= 0;
+						bottom_bullet_fired_c <= bottom_bullet_fired_c;
 				end if;
 			when others =>
-				bottom_bullet_fired_c <= 0;
+				bottom_bullet_fired_c <= bottom_bullet_fired_c;
 			end case ;	
 	end process ; 
 
