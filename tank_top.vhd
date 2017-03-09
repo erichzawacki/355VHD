@@ -22,6 +22,7 @@ signal tank_topx_c : integer := 320;
 signal tank_offset_c : integer := 50;
 signal clock_counter : integer := 0;
 signal clock_divide_top: integer := 250000;
+signal clock_divide_top_c: integer := 250000;
 
 begin
 
@@ -29,9 +30,13 @@ begin
 	begin  
 		case( hist0 ) is 
 			when x"1C" => 
-				clock_divide_top <= 750000;
+				clock_divide_top_c <= 750000;
+			when x"1B" => 
+				clock_divide_top_c <= 500000;
+			when x"23" => 
+				clock_divide_top_c <= 250000;
 				--bullet_fired <= 1;
-			when others => clock_divide_top <= clock_divide_top;
+			when others => clock_divide_top_c <= clock_divide_top;
 								--bullet_fired <= 0;
 			end case ;
 	end process ; 
@@ -40,6 +45,7 @@ begin
 	
 	begin
 	if (rising_edge(clk)) then
+		clock_divide_top <= clock_divide_top_c;
 		if (clock_counter < 50000000) then
 				clock_counter <= clock_counter + 1;
 		else
