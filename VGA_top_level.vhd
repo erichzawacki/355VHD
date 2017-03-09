@@ -48,12 +48,26 @@ component Tank_bottom_position is
 	);
 end component Tank_bottom_position;
 
+component bottom_bullet is
+	port( 
+	hist0 : in std_logic_vector(7 downto 0);
+	clk : in std_logic;
+	-- tank stuff goes here --
+	tank_bottomx : in integer;
+	--bullet stuff
+	bottom_bulletx : out integer;
+	bottom_bullety : out integer
+	);
+end component bottom_bullet;
+
 component pixelGenerator is
 	port(
 			clk, ROM_clk, rst_n, video_on, eof 				: in std_logic;
 			pixel_row, pixel_column						    : in std_logic_vector(9 downto 0);
 			tank_topx											: in integer;
 			tank_bottomx											: in integer;
+			bottom_bulletx : in integer;
+			bottom_bullety : in integer
 
 			red_out, green_out, blue_out					: out std_logic_vector(9 downto 0)
 		);
@@ -76,6 +90,8 @@ signal VGA_clk_int											: std_logic;
 signal eof													: std_logic;
 signal tank_topx_temp 								: integer;
 signal tank_bottomx_temp 								: integer;
+signal bottom_bulletx_temp								 :integer;
+signal bottom_bullety_temp 							: integer;
 signal scan_code_temp, his3, his2, his1, his0 : std_logic_vector(7 downto 0);
 signal scan_readyo_temp : std_logic;
 
@@ -92,6 +108,9 @@ tank_top : Tank_top_position
 		
 tank_bottom : Tank_bottom_position
 		port map(his0, CLOCK_50, RESET_N,tank_bottomx_temp);
+		
+bullet_bottom : bottom_bullet
+		port map(his0, CLOCK_50, RESET_N, bottom_bulletx_temp, bottom_bullety_temp);
 		
 	videoGen : pixelGenerator
 		port map(CLOCK_50, VGA_clk_int, RESET_N, video_on_int, eof, pixel_row_int, pixel_column_int, tank_topx_temp, tank_bottomx_temp,VGA_RED, VGA_GREEN, VGA_BLUE);
