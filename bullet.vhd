@@ -64,6 +64,8 @@ begin
 			when x"F0" =>
 				if (hist1 = x"1D") then
 					bottom_bullet_fired_c <= 1;
+				else
+						bottom_bullet_fired_c <= 0;
 				end if;
 			when others =>
 				bottom_bullet_fired_c <= 0;

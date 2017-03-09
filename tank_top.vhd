@@ -29,11 +29,11 @@ begin
 	tankTopSpeed : process( hist0 ) 
 	begin  
 		case( hist0 ) is 
-			when x"1C" => 
+			when x"3B" => 
 				clock_divide_top_c <= 750000;
-			when x"1B" => 
+			when x"42" => 
 				clock_divide_top_c <= 500000;
-			when x"23" => 
+			when x"4B" => 
 				clock_divide_top_c <= 250000;
 				--bullet_fired <= 1;
 			when others => clock_divide_top_c <= clock_divide_top;
