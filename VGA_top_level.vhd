@@ -52,6 +52,7 @@ component bottom_bullet is
 	port( 
 	hist0 : in std_logic_vector(7 downto 0);
 	clk : in std_logic;
+	rst_n : in std_logic;
 	-- tank stuff goes here --
 	tank_bottomx : in integer;
 	--bullet stuff
@@ -66,8 +67,8 @@ component pixelGenerator is
 			pixel_row, pixel_column						    : in std_logic_vector(9 downto 0);
 			tank_topx											: in integer;
 			tank_bottomx											: in integer;
-			bottom_bulletx : in integer;
-			bottom_bullety : in integer
+			bottom_bulletx										 : in integer;
+			bottom_bullety 										: in integer;
 
 			red_out, green_out, blue_out					: out std_logic_vector(9 downto 0)
 		);
@@ -113,7 +114,8 @@ bullet_bottom : bottom_bullet
 		port map(his0, CLOCK_50, RESET_N, bottom_bulletx_temp, bottom_bullety_temp);
 		
 	videoGen : pixelGenerator
-		port map(CLOCK_50, VGA_clk_int, RESET_N, video_on_int, eof, pixel_row_int, pixel_column_int, tank_topx_temp, tank_bottomx_temp,VGA_RED, VGA_GREEN, VGA_BLUE);
+		port map(CLOCK_50, VGA_clk_int, RESET_N, video_on_int, eof, pixel_row_int, pixel_column_int, 
+		tank_topx_temp, tank_bottomx_temp, bottom_bulletx_temp, bottom_bullety_temp, VGA_RED, VGA_GREEN, VGA_BLUE);
 
 --------------------------------------------------------------------------------------------
 --This section should not be modified in your design.  This section handles the VGA timing signals

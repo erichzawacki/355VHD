@@ -29,11 +29,11 @@ begin
 	tankBottomSpeed : process( hist0 ) 
 	begin  
 		case( hist0 ) is 
-			when x"1B" => 
+			when x"1C" => 
 				clock_divide_bottom_c <= 750000;
 			when x"1B" => 
 				clock_divide_bottom_c <= 500000;
-			when x"1B" => 
+			when x"23" => 
 				clock_divide_bottom_c <= 250000;
 				--bullet_fired <= 1;
 			when others => clock_divide_bottom_c <= clock_divide_bottom;

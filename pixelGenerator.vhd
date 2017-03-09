@@ -10,6 +10,8 @@ entity pixelGenerator is
 			pixel_row, pixel_column						    : in std_logic_vector(9 downto 0);
 			tank_topx                                      : in integer;
 			tank_bottomx                                      : in integer;
+			bottom_bulletx 										: in integer;
+			bottom_bullety 										: in integer;
 			red_out, green_out, blue_out					: out std_logic_vector(9 downto 0)
 		);
 end entity pixelGenerator;
@@ -39,6 +41,8 @@ signal color        : std_logic_vector (29 downto 0);
 
 signal pixel_row_int, pixel_column_int : natural;
 signal tank_offset : integer := 50;
+signal bullet_offsetx : integer := 10;
+signal bullet_offsety : integer := 10;
 
 
 begin
@@ -81,7 +85,11 @@ begin
 				colorAddress <= color_red;
 			elsif (pixel_column_int < tank_bottomx+tank_offset and pixel_column_int > tank_bottomx-tank_offset and pixel_row_int < 75) then
 				colorAddress <= color_blue;
-
+			elsif (pixel_column_int < bottom_bulletx+bullet_offsetx and 
+				    pixel_column_int >  bottom_bulletx-bullet_offsetx and 
+					 pixel_row_int >  bottom_bullety-bullet_offsety and 
+					 pixel_row_int <  bottom_bullety+bullet_offsety) then
+				colorAddress <= color_green;
 			else
 				colorAddress <= color_black;
 			end if;
