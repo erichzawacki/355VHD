@@ -51,6 +51,7 @@ end component Tank_bottom_position;
 component bottom_bullet is
 	port( 
 	hist0 : in std_logic_vector(7 downto 0);
+	hist1 : in std_logic_vector(7 downto 0);
 	clk : in std_logic;
 	rst_n : in std_logic;
 	-- tank stuff goes here --
@@ -111,7 +112,7 @@ tank_bottom : Tank_bottom_position
 		port map(his0, CLOCK_50, RESET_N,tank_bottomx_temp);
 		
 bullet_bottom : bottom_bullet
-		port map(his0, CLOCK_50, RESET_N, bottom_bulletx_temp, bottom_bullety_temp);
+		port map(his0, his1, CLOCK_50, RESET_N, tank_bottomx_temp, bottom_bulletx_temp, bottom_bullety_temp);
 		
 	videoGen : pixelGenerator
 		port map(CLOCK_50, VGA_clk_int, RESET_N, video_on_int, eof, pixel_row_int, pixel_column_int, 
