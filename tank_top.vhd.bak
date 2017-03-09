@@ -21,7 +21,7 @@ signal direction_top_c : integer := 1;
 signal tank_topx_c : integer := 320;
 signal tank_offset_c : integer := 50;
 signal clock_counter : integer := 0;
-signal clock_divide_top: integer := 250000;
+signal clock_divide_top: integer := 0;
 
 begin
 
@@ -31,7 +31,7 @@ begin
 			when x"1C" => 
 				clock_divide_top <= 750000;
 				--bullet_fired <= 1;
-			when others => clock_divide_top <= clock_divide_top;
+			when others => clock_divide_top <= 250000;
 								--bullet_fired <= 0;
 			end case ;
 	end process ; 
