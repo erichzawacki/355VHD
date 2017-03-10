@@ -32,9 +32,9 @@ begin
 			when x"3B" => 
 				clock_divide_top_c <= 750000;
 			when x"42" => 
-				clock_divide_top_c <= 500000;
+				clock_divide_top_c <= 400000;
 			when x"4B" => 
-				clock_divide_top_c <= 250000;
+				clock_divide_top_c <= 150000;
 				--bullet_fired <= 1;
 			when others => clock_divide_top_c <= clock_divide_top;
 								--bullet_fired <= 0;

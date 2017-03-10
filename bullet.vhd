@@ -25,6 +25,7 @@ architecture behavioral of bottom_bullet  is
 signal bottom_bulletx_c : integer := 320;
 signal bottom_bullety_c : integer := 395;
 signal bottom_bullet_fired_c : integer := 0;
+signal bottom_bullet_fired_temp : integer := 0;
 signal bullet_offsetx : integer := 10;
 signal bullet_offsety : integer := 10;
 signal clock_divide_bullet : integer := 250000;
@@ -45,11 +46,14 @@ begin
 					if (bottom_bullet_fired_c = 1) then
 						if (bottom_bullety_c-bullet_offsety > 0) then
 							bottom_bullety_c <= bottom_bullety_c - 1;
+							bottom_bullet_fired_temp <= 1;
 						else
-
 							bottom_bullety_c <= 395;
-							bottom_bulletx_c <= bottom_bulletx_c;
+							bottom_bulletx_c <= tank_bottomx;
+							bottom_bullet_fired_temp <= 0;
 						end if;
+					else 
+						bottom_bulletx_c <= tank_bottomx;
 					end if;
 				end if;
 		end if;
@@ -58,18 +62,21 @@ begin
 	end process bottom_bulletClocked;
 
 
-	bulletFire : process( hist0 ) 
+	bulletFire : process( bottom_bullety_c, hist0 ) 
 	begin
+		
+	bottom_bullet_fired_c <= bottom_bullet_fired_temp;	
 		case( hist0 ) is 
-			when x"F0" =>
-				if (hist1 = x"1D") then
+			when x"1D" =>
+					bottom_bullet_fired_c <= 1;
+			when others =>
+				if(bottom_bullet_fired_temp = 1) then 
 					bottom_bullet_fired_c <= 1;
 				else
-						bottom_bullet_fired_c <= 0;
+					bottom_bullet_fired_c <= 0;
 				end if;
-			when others =>
-				bottom_bullet_fired_c <= 0;
-			end case ;	
+			end case ;
+		
 	end process ; 
 
 	bottom_bulletx <= bottom_bulletx_c;
