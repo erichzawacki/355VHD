@@ -81,9 +81,9 @@ begin
 		if (rising_edge(clk)) then
 		--479 by 639
 
-			if (pixel_column_int < tank_topx+tank_offset and pixel_column_int > tank_topx-tank_offset and pixel_row_int >= 405) then
+			if (pixel_column_int < tank_topx+tank_offset and pixel_column_int > tank_topx-tank_offset and pixel_row_int < 75) then
 				colorAddress <= color_red;
-			elsif (pixel_column_int < tank_bottomx+tank_offset and pixel_column_int > tank_bottomx-tank_offset and pixel_row_int < 75) then
+			elsif (pixel_column_int < tank_bottomx+tank_offset and pixel_column_int > tank_bottomx-tank_offset and pixel_row_int >= 405) then
 				colorAddress <= color_blue;
 			elsif (pixel_column_int < bottom_bulletx+bullet_offsetx and 
 				    pixel_column_int >  bottom_bulletx-bullet_offsetx and 

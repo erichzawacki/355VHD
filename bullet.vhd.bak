@@ -52,8 +52,12 @@ begin
 							bottom_bulletx_c <= tank_bottomx;
 							bottom_bullet_fired_temp <= 0;
 						end if;
+<<<<<<< HEAD
+					
+=======
 					else 
 						bottom_bulletx_c <= tank_bottomx;
+>>>>>>> 8ab43a27fe6af1f47db37a1b89145edfb78f4dc2
 					end if;
 				end if;
 		end if;
@@ -68,6 +72,16 @@ begin
 	bottom_bullet_fired_c <= bottom_bullet_fired_temp;	
 		case( hist0 ) is 
 			when x"1D" =>
+<<<<<<< HEAD
+				if (hist1 = x"F0") then
+					bottom_bullet_fired_c <= 1;
+				else
+						bottom_bullet_fired_c <= bottom_bullet_fired_c;
+				end if;
+			when others =>
+				bottom_bullet_fired_c <= bottom_bullet_fired_c;
+			end case ;	
+=======
 					bottom_bullet_fired_c <= 1;
 			when others =>
 				if(bottom_bullet_fired_temp = 1) then 
@@ -76,6 +90,8 @@ begin
 					bottom_bullet_fired_c <= 0;
 				end if;
 			end case ;
+		
+>>>>>>> 8ab43a27fe6af1f47db37a1b89145edfb78f4dc2
 	end process ; 
 
 	bottom_bulletx <= bottom_bulletx_c;
