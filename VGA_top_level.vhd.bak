@@ -131,7 +131,7 @@ tank_bottom : Tank_bottom_position
 bullet_bottom : bottom_bullet
 		port map(his0, his1, CLOCK_50, RESET_N, tank_bottomx_temp, bottom_bulletx_temp, bottom_bullety_temp);
 
-bullet_top : top_bullet
+bullet_bottom : bottom_bullet
 		port map(his0, his1, CLOCK_50, RESET_N, tank_topx_temp, topx_temp, topy_temp);
 		
 	videoGen : pixelGenerator

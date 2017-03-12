@@ -92,8 +92,8 @@ begin
 					 pixel_row_int >  bottom_bullety-bullet_offsety and 
 					 pixel_row_int <  bottom_bullety+bullet_offsety) then
 				colorAddress <= color_green;
-			elsif (pixel_column_int < top_bulletx+bullet_offsetx and 
-				    pixel_column_int >  top_bulletx-bullet_offsetx and 
+			elsif (pixel_column_int < top_bulletx+top_offsetx and 
+				    pixel_column_int >  top_bulletx-top_offsetx and 
 					 pixel_row_int >  top_bullety-bullet_offsety and 
 					 pixel_row_int <  top_bullety+bullet_offsety) then
 				colorAddress <= color_green;
