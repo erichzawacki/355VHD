@@ -21,69 +21,72 @@ end entity bottom_bullet;
 
 architecture behavioral of bottom_bullet  is
 
+type state_type is (idle, fired);
+signal state: state_type := idle;
+signal next_state: state_type := idle;
+
 
 signal bottom_bulletx_c : integer := 320;
 signal bottom_bullety_c : integer := 395;
-signal bottom_bullet_fired_c : integer := 0;
-signal bottom_bullet_fired_temp : integer := 0;
-signal bullet_offsetx : integer := 10;
 signal bullet_offsety : integer := 10;
 signal clock_divide_bullet : integer := 250000;
 signal clock_counter : integer := 0;
+signal bottom_bulletx_temp : integer := 320;
+signal bottom_bulletx_temp_temp : integer := 320;
 begin
 
 	bottom_bulletClocked : process(clk, rst_n) is
 	
 	begin
-			
 		if (rising_edge(clk)) then
-				if (clock_counter < 50000000) then
-					clock_counter <= clock_counter + 1;
-				else
-					clock_counter <= 0;
+			if (clock_counter < 50000000) then
+				clock_counter <= clock_counter + 1;
+			else
+				clock_counter <= 0;
+			end if;
+			state <= next_state;
+			if (clock_counter mod clock_divide_bullet = 0) then 
+				if (state = fired) then
+					bottom_bullety_c <= bottom_bullety_c - 1;
+				else 
+					bottom_bullety_c <= 395;
 				end if;
-				if (clock_counter mod clock_divide_bullet = 0) then
-					if (bottom_bullet_fired_c = 1) then
-						if (bottom_bullety_c-bullet_offsety > 0) then
-							bottom_bullety_c <= bottom_bullety_c - 1;
-							bottom_bullet_fired_temp <= 1;
-						else
-							bottom_bullety_c <= 395;
-							bottom_bulletx_c <= tank_bottomx;
-							bottom_bullet_fired_temp <= 0;
-						end if;
-					else 
-						bottom_bulletx_c <= tank_bottomx;
-					end if;
-				end if;
+			else 
+				bottom_bullety_c <= bottom_bullety_c;
+			end if;
+			
+			bottom_bulletx <= bottom_bulletx_c;
+			
 		end if;
-		
 		
 	end process bottom_bulletClocked;
 
 
-	bulletFire : process( bottom_bullety_c, hist0 ) 
+	bulletFire : process(state, clock_counter, tank_bottomx, bottom_bulletx_temp, bottom_bullety_c) 
 	begin
-		
-	bottom_bullet_fired_c <= bottom_bullet_fired_temp;	
-		case( hist0 ) is 
-			when x"F0" =>
-					if (hist1 = x"1D") then 
-						bottom_bullet_fired_c <= 1;
-					else
-						bottom_bullet_fired_c <= 0;
-					end if;
-			when others =>
-				if(bottom_bullet_fired_temp = 1) then 
-					bottom_bullet_fired_c <= 1;
-				else
-					bottom_bullet_fired_c <= 0;
+
+		case( state ) is 
+			when idle =>  
+				
+				bottom_bulletx_c <= tank_bottomx;
+				bottom_bulletx_temp_temp <= tank_bottomx;
+				
+				if (hist1 = x"1D" and hist0 = x"F0") then
+					next_state <= fired;
+				else 
+					next_state <= idle;
 				end if;
-			end case ;
+			when fired =>
+				bottom_bulletx_c <= bottom_bulletx_temp;
+				bottom_bulletx_temp_temp <= bottom_bulletx_temp;
+				if (bottom_bullety_c-bullet_offsety < 0) then
+					next_state <= idle;
+				else 
+					next_state <= fired;
+				end if;
+		end case ;
 		
 	end process ; 
-
-	bottom_bulletx <= bottom_bulletx_c;
-	bottom_bullety <= bottom_bullety_c;
-
+bottom_bullety <= bottom_bullety_c;
+bottom_bulletx_temp <= bottom_bulletx_temp_temp;
 end architecture behavioral;	

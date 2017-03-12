@@ -44,6 +44,7 @@ begin
 	tanktopClocked : process(clk, rst_n) is
 	
 	begin
+	
 	if (rising_edge(clk)) then
 		clock_divide_top <= clock_divide_top_c;
 		if (clock_counter < 50000000) then
