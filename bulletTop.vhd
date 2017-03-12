@@ -11,7 +11,7 @@ entity top_bullet is
 	clk 	: in std_logic;
 	rst_n : in std_logic;
 	-- tank stuff goes here --
-	tank_bottomx : in integer;
+	tank_topx : in integer;
 	--bullet stuff
 	top_bulletx : out integer;
 	top_bullety : out integer
@@ -27,12 +27,12 @@ signal next_state: state_type := idle;
 
 
 signal top_bulletx_c : integer := 320;
-signal top_bullety_c : integer := 395;
+signal top_bullety_c : integer := 85;
 signal bullet_offsety : integer := 10;
 signal clock_divide_bullet : integer := 250000;
 signal clock_counter : integer := 0;
-signal top_bulletx_temp : integer := 320;
-signal top_bulletx_temp_temp : integer := 320;
+signal top_bulletx_temp : integer := 85;
+signal top_bulletx_temp_temp : integer := 85;
 begin
 
 	top_bulletClocked : process(clk, rst_n) is
@@ -47,9 +47,9 @@ begin
 			state <= next_state;
 			if (clock_counter mod clock_divide_bullet = 0) then 
 				if (state = fired) then
-					top_bullety_c <= top_bullety_c - 1;
+					top_bullety_c <= top_bullety_c + 1;
 				else 
-					top_bullety_c <= 395;
+					top_bullety_c <= 85;
 				end if;
 			else 
 				top_bullety_c <= top_bullety_c;
@@ -62,16 +62,16 @@ begin
 	end process top_bulletClocked;
 
 
-	bulletFire : process(state, clock_counter, tank_bottomx, top_bulletx_temp, top_bullety_c) 
+	bulletFire : process(state, clock_counter, tank_topx, top_bulletx_temp, top_bullety_c) 
 	begin
 
 		case( state ) is 
 			when idle =>  
 				
-				top_bulletx_c <= tank_bottomx;
-				top_bulletx_temp_temp <= tank_bottomx;
+				top_bulletx_c <= tank_topx;
+				top_bulletx_temp_temp <= tank_topx;
 				
-				if (hist1 = x"1D" and hist0 = x"F0") then
+				if (hist1 = x"43" and hist0 = x"F0") then
 					next_state <= fired;
 				else 
 					next_state <= idle;
@@ -79,7 +79,7 @@ begin
 			when fired =>
 				top_bulletx_c <= top_bulletx_temp;
 				top_bulletx_temp_temp <= top_bulletx_temp;
-				if (top_bullety_c-bullet_offsety < 0) then
+				if (top_bullety_c-bullet_offsety > 479) then
 					next_state <= idle;
 				else 
 					next_state <= fired;
