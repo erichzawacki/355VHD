@@ -62,6 +62,20 @@ component bottom_bullet is
 	);
 end component bottom_bullet;
 
+component top_bullet is
+	port( 
+	hist0 : in std_logic_vector(7 downto 0);
+	hist1 : in std_logic_vector(7 downto 0);
+	clk 	: in std_logic;
+	rst_n : in std_logic;
+	-- tank stuff goes here --
+	tank_topx : in integer;
+	--bullet stuff
+	top_bulletx : out integer;
+	top_bullety : out integer
+	);
+end component top_bullet;
+
 component pixelGenerator is
 	port(
 			clk, ROM_clk, rst_n, video_on, eof 				: in std_logic;
@@ -70,7 +84,8 @@ component pixelGenerator is
 			tank_bottomx											: in integer;
 			bottom_bulletx										 : in integer;
 			bottom_bullety 										: in integer;
-
+			top_bulletx                                         : in integer;
+			top_bullety 										: in integer;
 			red_out, green_out, blue_out					: out std_logic_vector(9 downto 0)
 		);
 end component pixelGenerator;
@@ -94,6 +109,8 @@ signal tank_topx_temp 								: integer;
 signal tank_bottomx_temp 								: integer;
 signal bottom_bulletx_temp								 :integer;
 signal bottom_bullety_temp 							: integer;
+signal topx_temp								 :integer;
+signal topy_temp 							: integer;
 signal scan_code_temp, his3, his2, his1, his0 : std_logic_vector(7 downto 0);
 signal scan_readyo_temp : std_logic;
 
@@ -113,10 +130,14 @@ tank_bottom : Tank_bottom_position
 		
 bullet_bottom : bottom_bullet
 		port map(his0, his1, CLOCK_50, RESET_N, tank_bottomx_temp, bottom_bulletx_temp, bottom_bullety_temp);
+
+bullet_bottom : bottom_bullet
+		port map(his0, his1, CLOCK_50, RESET_N, tank_topx_temp, topx_temp, topy_temp);
 		
 	videoGen : pixelGenerator
 		port map(CLOCK_50, VGA_clk_int, RESET_N, video_on_int, eof, pixel_row_int, pixel_column_int, 
-		tank_topx_temp, tank_bottomx_temp, bottom_bulletx_temp, bottom_bullety_temp, VGA_RED, VGA_GREEN, VGA_BLUE);
+		tank_topx_temp, tank_bottomx_temp, bottom_bulletx_temp, bottom_bullety_temp, topx_temp, topy_temp, 
+		VGA_RED, VGA_GREEN, VGA_BLUE);
 
 --------------------------------------------------------------------------------------------
 --This section should not be modified in your design.  This section handles the VGA timing signals

@@ -12,6 +12,8 @@ entity pixelGenerator is
 			tank_bottomx                                      : in integer;
 			bottom_bulletx 										: in integer;
 			bottom_bullety 										: in integer;
+			top_bulletx                                         : in integer;
+			top_bullety 										: in integer;
 			red_out, green_out, blue_out					: out std_logic_vector(9 downto 0)
 		);
 end entity pixelGenerator;
@@ -89,6 +91,11 @@ begin
 				    pixel_column_int >  bottom_bulletx-bullet_offsetx and 
 					 pixel_row_int >  bottom_bullety-bullet_offsety and 
 					 pixel_row_int <  bottom_bullety+bullet_offsety) then
+				colorAddress <= color_green;
+			elsif (pixel_column_int < top_bulletx+bullet_offsetx and 
+				    pixel_column_int >  top_bulletx-bullet_offsetx and 
+					 pixel_row_int >  top_bullety-bullet_offsety and 
+					 pixel_row_int <  top_bullety+bullet_offsety) then
 				colorAddress <= color_green;
 			else
 				colorAddress <= color_black;

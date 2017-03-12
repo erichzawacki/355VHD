@@ -67,8 +67,12 @@ begin
 		
 	bottom_bullet_fired_c <= bottom_bullet_fired_temp;	
 		case( hist0 ) is 
-			when x"1D" =>
-					bottom_bullet_fired_c <= 1;
+			when x"F0" =>
+					if (hist1 = x"1D") then 
+						bottom_bullet_fired_c <= 1;
+					else
+						bottom_bullet_fired_c <= 0;
+					end if;
 			when others =>
 				if(bottom_bullet_fired_temp = 1) then 
 					bottom_bullet_fired_c <= 1;

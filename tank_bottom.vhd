@@ -44,8 +44,9 @@ begin
 	tankbottomClocked : process(clk, rst_n) is
 	
 	begin
-	clock_divide_bottom <= clock_divide_bottom_c;
+	
 	if (rising_edge(clk)) then
+		clock_divide_bottom <= clock_divide_bottom_c;
 		if (clock_counter < 50000000) then
 				clock_counter <= clock_counter + 1;
 		else
