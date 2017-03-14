@@ -131,6 +131,8 @@ component pixelGenerator is
 			bottom_bullety 										: in integer;
 			top_bulletx                                         : in integer;
 			top_bullety 										: in integer;
+			bottomScore											: in integer;
+			topScore												: in integer;
 			red_out, green_out, blue_out					: out std_logic_vector(9 downto 0)
 		);
 end component pixelGenerator;
@@ -204,7 +206,7 @@ impact_top : impactTop
 	
 	videoGen : pixelGenerator
 		port map(CLOCK_50, VGA_clk_int, RESET_N, video_on_int, eof, pixel_row_int, pixel_column_int, 
-		tank_topx_temp, tank_bottomx_temp, bottom_bulletx_temp, bottom_bullety_temp, topx_temp, topy_temp, 
+		tank_topx_temp, tank_bottomx_temp, bottom_bulletx_temp, bottom_bullety_temp, topx_temp, topy_temp, score_top_int, score_bottom_int, 
 		VGA_RED, VGA_GREEN, VGA_BLUE);
 
 --------------------------------------------------------------------------------------------

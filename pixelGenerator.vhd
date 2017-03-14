@@ -14,7 +14,9 @@ entity pixelGenerator is
 			bottom_bullety 										: in integer;
 			top_bulletx                                         : in integer;
 			top_bullety 										: in integer;
-			red_out, green_out, blue_out					: out std_logic_vector(9 downto 0)
+			bottomScore											: in integer;
+			topScore												: in integer;
+ 			red_out, green_out, blue_out					: out std_logic_vector(9 downto 0)
 		);
 end entity pixelGenerator;
 
@@ -63,17 +65,6 @@ begin
 	colors : colorROM
 		port map(colorAddress, ROM_clk, color);
 		
-	--keyboard : ps2
-		--port map(keyboard_clk_temp, keyboard_data_temp, clk, reset_temp, scan_code_temp,
-			--		scan_readyo_temp, his3, his2, his1, his0);
-	--tank_bottom : tank
-		--port map(clk, tank_bottomx, direction_bottom, clock_counter, clock_divide_bottom,
-			--		tank_bottomx, direction_bottom);
-		
-	--tank_top : tank
-		--port map(clk, tank_topx, direction_top, clock_counter, clock_divide_top,
-					  --tank_topx, direction_top);
-
 --------------------------------------------------------------------------------------------	
 
 	pixelDraw : process(clk, rst_n) is
@@ -82,25 +73,37 @@ begin
 			
 		if (rising_edge(clk)) then
 		--479 by 639
-
-			if (pixel_column_int < tank_topx+tank_offset and pixel_column_int > tank_topx-tank_offset and pixel_row_int < 75) then
-				colorAddress <= color_red;
-			elsif (pixel_column_int < tank_bottomx+tank_offset and pixel_column_int > tank_bottomx-tank_offset and pixel_row_int >= 405) then
-				colorAddress <= color_blue;
-			elsif (pixel_column_int < bottom_bulletx+bullet_offsetx and 
-				    pixel_column_int >  bottom_bulletx-bullet_offsetx and 
-					 pixel_row_int >  bottom_bullety-bullet_offsety and 
-					 pixel_row_int <  bottom_bullety+bullet_offsety) then
-				colorAddress <= color_green;
-			elsif (pixel_column_int < top_bulletx+bullet_offsetx and 
-				    pixel_column_int >  top_bulletx-bullet_offsetx and 
-					 pixel_row_int >  top_bullety-bullet_offsety and 
-					 pixel_row_int <  top_bullety+bullet_offsety) then
-				colorAddress <= color_green;
-			else
-				colorAddress <= color_black;
-			end if;
-		
+			if (topScore < 3 and bottomScore < 3) then
+				if (pixel_column_int < tank_topx+tank_offset and pixel_column_int > tank_topx-tank_offset and pixel_row_int < 75) then
+					colorAddress <= color_red;
+				elsif (pixel_column_int < tank_bottomx+tank_offset and pixel_column_int > tank_bottomx-tank_offset and pixel_row_int >= 405) then
+					colorAddress <= color_blue;
+				elsif (pixel_column_int < bottom_bulletx+bullet_offsetx and 
+						 pixel_column_int >  bottom_bulletx-bullet_offsetx and 
+						 pixel_row_int >  bottom_bullety-bullet_offsety and 
+						 pixel_row_int <  bottom_bullety+bullet_offsety) then
+					colorAddress <= color_green;
+				elsif (pixel_column_int < top_bulletx+bullet_offsetx and 
+						 pixel_column_int >  top_bulletx-bullet_offsetx and 
+						 pixel_row_int >  top_bullety-bullet_offsety and 
+						 pixel_row_int <  top_bullety+bullet_offsety) then
+					colorAddress <= color_green;
+				else
+					colorAddress <= color_black;
+				end if;
+			elsif (bottomScore >= 3) then
+				if (pixel_column_int < tank_topx+tank_offset and pixel_column_int > tank_topx-tank_offset and pixel_row_int < 75) then
+					colorAddress <= color_red;
+				else
+					colorAddress <= color_black;
+				end if;
+			elsif (topScore >= 3) then
+				if (pixel_column_int < tank_bottomx+tank_offset and pixel_column_int > tank_bottomx-tank_offset and pixel_row_int >= 405) then
+					colorAddress <= color_blue;
+				else
+					colorAddress <= color_black;
+				end if;
+			end if;			
 		end if;
 		
 	end process pixelDraw;
