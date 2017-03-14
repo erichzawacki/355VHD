@@ -18,7 +18,7 @@ end entity Tank_bottom_position;
 architecture behavioral of Tank_bottom_position is
 signal direction_c : integer := 1; -- 1 to the right, 0 to the left;
 signal direction_bottom_c : integer := 1;
-signal tank_bottomx_c : integer := 52;
+signal tank_bottomx_c : integer := 320;
 signal tank_offset_c : integer := 50;
 signal clock_counter : integer := 0;
 signal clock_divide_bottom: integer := 250000;
@@ -26,7 +26,7 @@ signal clock_divide_bottom_c: integer := 250000;
 
 begin
 
-	tankBottomSpeed : process( hist0, rst_n ) 
+	tankBottomSpeed : process( hist0 ) 
 	begin  
 		case( hist0 ) is 
 			when x"1C" => 
@@ -39,9 +39,6 @@ begin
 			when others => clock_divide_bottom_c <= clock_divide_bottom;
 								--bullet_fired <= 0;
 			end case ;
-		if (rst_n = '0') then
-			clock_divide_bottom_c <= 400000;
-		end if;
 	end process ; 
 
 	tankbottomClocked : process(clk, rst_n) is
@@ -55,11 +52,7 @@ begin
 		else
 			clock_counter <= 0;
 		end if;
-		if (rst_n = '0') then
-			tank_bottomx_c <= 52;
-		else
-			tank_bottomx_c <= tank_bottomx_c;
-		end if;
+		
 		if (clock_counter mod clock_divide_bottom = 0) then
 			if (tank_bottomx_c+tank_offset_c < 639 and direction_c = 1) then
 				tank_bottomx_c <= tank_bottomx_c + 1;

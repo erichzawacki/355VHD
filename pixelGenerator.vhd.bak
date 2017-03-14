@@ -73,7 +73,7 @@ begin
 			
 		if (rising_edge(clk)) then
 		--479 by 639
-			if (topScore < 3 and bottomScore < 3 and rst_n = '1') then
+			if (topScore < 3 and bottomScore < 3) then
 				if (pixel_column_int < tank_topx+tank_offset and pixel_column_int > tank_topx-tank_offset and pixel_row_int < 75) then
 					colorAddress <= color_red;
 				elsif (pixel_column_int < tank_bottomx+tank_offset and pixel_column_int > tank_bottomx-tank_offset and pixel_row_int >= 405) then

@@ -16,9 +16,9 @@ end entity Tank_top_position;
 
 
 architecture behavioral of Tank_top_position is
-signal direction_c : integer := 0; -- 1 to the right, 0 to the left;
-signal direction_top_c : integer := 0;
-signal tank_topx_c : integer := 587;
+signal direction_c : integer := 1; -- 1 to the right, 0 to the left;
+signal direction_top_c : integer := 1;
+signal tank_topx_c : integer := 320;
 signal tank_offset_c : integer := 50;
 signal clock_counter : integer := 0;
 signal clock_divide_top: integer := 250000;
@@ -26,7 +26,7 @@ signal clock_divide_top_c: integer := 250000;
 
 begin
 
-	tankTopSpeed : process( hist0, rst_n ) 
+	tankTopSpeed : process( hist0 ) 
 	begin  
 		case( hist0 ) is 
 			when x"3B" => 
@@ -39,9 +39,6 @@ begin
 			when others => clock_divide_top_c <= clock_divide_top;
 								--bullet_fired <= 0;
 			end case ;
-		if (rst_n = '0') then
-			clock_divide_top_c <= 400000;
-		end if;
 	end process ; 
 
 	tanktopClocked : process(clk, rst_n) is
@@ -55,11 +52,7 @@ begin
 		else
 			clock_counter <= 0;
 		end if;
-		if (rst_n = '0') then
-			tank_topx_c <= 587;
-		else
-			tank_topx_c <= tank_topx_c;
-		end if;
+		
 		if (clock_counter mod clock_divide_top = 0) then
 			if (tank_topx_c+tank_offset_c < 639 and direction_c = 1) then
 				tank_topx_c <= tank_topx_c + 1;
