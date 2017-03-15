@@ -21,8 +21,8 @@ signal direction_bottom_c : integer := 1;
 signal tank_bottomx_c : integer := 52;
 signal tank_offset_c : integer := 50;
 signal clock_counter : integer := 0;
-signal clock_divide_bottom: integer := 250000;
-signal clock_divide_bottom_c: integer := 250000;
+signal clock_divide_bottom: integer := 200000;
+signal clock_divide_bottom_c: integer := 200000;
 
 begin
 
@@ -30,17 +30,17 @@ begin
 	begin  
 		case( hist0 ) is 
 			when x"1C" => 
-				clock_divide_bottom_c <= 750000;
+				clock_divide_bottom_c <= 100000;
 			when x"1B" => 
-				clock_divide_bottom_c <= 400000;
+				clock_divide_bottom_c <= 200000;
 			when x"23" => 
-				clock_divide_bottom_c <= 150000;
+				clock_divide_bottom_c <= 400000;
 				--bullet_fired <= 1;
 			when others => clock_divide_bottom_c <= clock_divide_bottom;
 								--bullet_fired <= 0;
 			end case ;
 		if (rst_n = '0') then
-			clock_divide_bottom_c <= 400000;
+			clock_divide_bottom_c <= 200000;
 		end if;
 	end process ; 
 
