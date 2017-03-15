@@ -29,7 +29,7 @@ signal next_state: state_type := idle;
 signal bottom_bulletx_c : integer := 320;
 signal bottom_bullety_c : integer := 395;
 signal bullet_offsety : integer := 10;
-signal clock_divide_bullet : integer := 250000;
+signal clock_divide_bullet : integer := 100000;
 signal clock_counter : integer := 0;
 signal bottom_bulletx_temp : integer := 320;
 signal bottom_bulletx_temp_temp : integer := 320;
@@ -79,7 +79,7 @@ begin
 			when fired =>
 				bottom_bulletx_c <= bottom_bulletx_temp;
 				bottom_bulletx_temp_temp <= bottom_bulletx_temp;
-				if (bottom_bullety_c-bullet_offsety < 0) then
+				if (bottom_bullety_c + bullet_offsety < 0) then
 					next_state <= idle;
 				else 
 					next_state <= fired;

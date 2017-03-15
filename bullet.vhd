@@ -43,8 +43,8 @@ begin
 					clock_counter <= 0;
 				end if;
 				if (clock_counter mod clock_divide_bullet = 0) then
-					if (bottom_bullet_fired_c = 1) then
-						if (bottom_bullety_c-bullet_offsety > 0) then
+					if (bottom_bullety_c-bullet_offsety > 0) then
+						if (bottom_bullet_fired_c = 1) then
 							bottom_bullety_c <= bottom_bullety_c - 1;
 							bottom_bullet_fired_temp <= 1;
 						else
@@ -80,7 +80,6 @@ begin
 					bottom_bullet_fired_c <= 0;
 				end if;
 			end case ;
-		
 	end process ; 
 
 	bottom_bulletx <= bottom_bulletx_c;
