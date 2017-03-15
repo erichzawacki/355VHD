@@ -38,7 +38,11 @@ begin
 	bottom_bulletClocked : process(clk, rst_n) is
 	
 	begin
-		if (rising_edge(clk)) then
+		if rst_n = '0' then
+			bottom_bulletx <= tank_bottomx;
+			bottom_bullety_c <= 395;
+			state <= idle;
+		elsif (rising_edge(clk)) then
 			if (clock_counter < 50000000) then
 				clock_counter <= clock_counter + 1;
 			else
